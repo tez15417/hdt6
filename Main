@@ -1,0 +1,167 @@
+import java.util.Scanner;
+import java.util.Set;
+/*
+ * Hoja de Trabajo 6
+ * Jorge Mario Tezen 15417
+ * Enma Lopez 15
+ */
+public class Main{
+    public static void main(String[] args){
+        System.out.println("Bienvenido al programa");
+        System.out.println();
+        int opcion1 = 0;
+        Scanner teclado = new Scanner(System.in);
+        while (opcion1 == 0){
+            System.out.println("Elija el numero de implementacion SET a utilizar: ");
+            System.out.println("1.HashSet");
+            System.out.println("2.TreeSet");
+            System.out.println("3.LinkedHashSet");
+            try{
+                opcion1 = Integer.parseInt(teclado.nextLine());
+            } catch (NumberFormatException e){
+		System.out.println();
+                System.out.println("Error: dato invalido, intentelo de nuevo.");
+		System.out.println();
+                opcion1 = 0;
+            }
+            if (opcion1 < 1 || opcion1 > 3){
+                opcion1 = 0;
+                System.out.println();
+                System.out.println("Error: opcion invalida, intentelo de nuevo.");
+                System.out.println();
+            }
+        }
+        TSet Java = new TSet(opcion1);
+	TSet Web = new TSet(opcion1);
+	TSet Celular = new TSet(opcion1);
+        TSet Resultado = new TSet(opcion1);
+        
+        opcion1 = 0;
+        String nombre;
+        int y;
+        int cont = 1;
+        int z;
+        while (opcion1 == 0){
+            System.out.println("\nIngrese el nombre del desarrollador "+cont+": ");
+            nombre = teclado.nextLine();
+            y = 0;
+            int cont2 = 0;
+            while (y == 0){
+                System.out.println("\nIngrese el numero correspondiente al area del desarrollador:\n1. Java\n2. Web\n3. Celulares\n4. Terminar con este desarrollador");
+                try{
+                    y = Integer.parseInt(teclado.nextLine());
+                } catch (NumberFormatException e){
+                    System.out.println("\nError: dato invalido, intentelo de nuevo.");
+                    y = 0;
+                }
+                if (y < 1 || y > 4){
+                    y = 0;
+                    System.out.println("\nError: opcion invalida, intentelo de nuevo.");
+                }
+                if (y == 1){
+                    if (cont2 == 1 || cont2 == 4 || cont2 == 6){
+                        System.out.println("\nEl desarrollador ya se encuentra en este conjunto");
+                        y = 0;
+                    } else{
+                        System.out.println("\nSe añadio a los desarrolladores Java.");
+                        Java.add(nombre);
+                        y = 0;
+                        cont2 = cont2 + 1;
+                    }
+                }
+                if (y == 2){
+                    if (cont2 == 3 || cont2 == 4 || cont2 == 8){
+                        System.out.println("\nEl desarrollador ya se encuentra en este conjunto");
+                        y = 0;
+                    } else{
+                        System.out.println("\nSe añadio a los desarrolladores Web.");
+                        Web.add(nombre);
+                        y = 0;
+                        cont2 = cont2 + 3;
+                    }
+                }
+                if (y == 3){
+                    if (cont2 == 5 || cont2 == 6 || cont2 == 8){
+                        System.out.println("\nEl desarrollador ya se encuentra en este conjunto");
+                        y = 0;
+                    } else {
+                        System.out.println("\nSe añadio a los desarrolladores de Celulares.");
+                        Celular.add(nombre);
+                        y = 0;
+                        cont2 = cont2 + 5;
+                    }
+                }
+                if (cont2 == 9) //Sale del ciclo si esta en los 3 conjuntos
+                    y = 1;
+            }
+            z = 0;
+            while (z == 0){
+                System.out.println("\nDesea continuar ingresando desarrolladores?\n1. Si\n2. No");
+                 try{
+                    z = Integer.parseInt(teclado.nextLine());
+                } catch (NumberFormatException e){
+                    System.out.println();
+                    System.out.println("\nError: dato invalido, intentelo de nuevo.");
+                    System.out.println();
+                    z = 0;
+                }
+                if (z < 1 || z > 2){
+                    z = 0;
+                    System.out.println();
+                    System.out.println("\nError: opcion invalida, intentelo de nuevo.");
+                    System.out.println();
+                }
+            }
+            opcion1 = z - 1;
+            cont++;
+        }
+          
+        Set<String> cJava = Java.getConjunto();
+        Set<String> cWeb = Web.getConjunto();
+        Set<String> cMovil = Celular.getConjunto();
+        Set<String> cResultado = Resultado.getConjunto();
+        
+        System.out.println("\nA Resultados de los Conjuntos: \n");
+        Java.interseccionTresConjuntos(cWeb,cMovil);
+        cResultado = Java.setConjunto();
+        Resultado.setConjunto(cResultado);
+        System.out.println("1. Los desarrolladores con experiencia en Java, web y celulares son: "+Resultado.getConjunto()+"\n");
+        Java.restaDosConjuntos(cWeb);
+        cResultado = Java.setConjunto();
+        Resultado.setConjunto(cResultado);
+        System.out.println("2. Los desarrolladores con experiencia en Java que no tienen experiencia en web son: "+Resultado.getConjunto()+"\n");
+        Web.interseccionDosConjuntos(cMovil);
+        cResultado = Web.setConjunto();
+        Resultado.setConjunto(cResultado);
+        Resultado.restaDosConjuntos(cJava);
+        System.out.println("3. Los desarrolladores con experiencia en Web y Celulares pero sin experiencia en java son: "+Resultado.setConjunto()+"\n");
+        Web.unionDosConjuntos(cMovil);
+        cResultado = Web.setConjunto();
+        Resultado.setConjunto(cResultado);
+        Resultado.interseccionDosConjuntos(cJava);
+        System.out.println("4. Los desarrolladores con experiencia en Web o Celulares, pero que tienen ecperiencia en java son: "+Resultado.setConjunto()+"\n");
+        if(Java.subConjunto(cWeb)){
+            System.out.println("5. El conjunto de desarrolladores Java es un subconjunto de Desarrolladores Web\n");
+        }
+        else{
+            System.out.println("5. El conjunto de desarrolladores Java no es un subconjunto de Desarrolladores Web\n");
+        }
+        if(cJava.size()>cWeb.size()&& cJava.size()>cMovil.size()){
+            System.out.println("6. El conjunto de desarrolladores Java es el mas grande, integrado por: \n");
+            System.out.println(Java.toString());
+        }
+        else if(cWeb.size()>cJava.size()&& cWeb.size()>cMovil.size()){
+            System.out.println("6. El conjunto de desarrolladores Web es el mas grande, integrado por: \n");
+            System.out.println(Web.toString());
+        }
+        else if(cMovil.size()>cJava.size()&& cMovil.size()>cWeb.size()){
+            System.out.println("6. El conjunto de desarrolladores Movil es el mas grande, integrado por: \n");
+            System.out.println(Celular.toString());
+        }
+        else {
+            System.out.println("7. No hay un conjunto mas grande");
+        }
+        
+        
+    }
+}
