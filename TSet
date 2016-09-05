@@ -1,0 +1,90 @@
+import java.util.Set;
+
+public class TSet<E> {
+    Factory fabrica = new Factory();
+    private Set<E> cPrincipal;
+    private Set<E> cResult;
+    
+    //constructor
+    public TSet(int value){
+	cPrincipal =fabrica.setInterfaz(value);
+        cResult = fabrica.setInterfaz(value);
+    }
+    public void add(E name){
+        cPrincipal.add(name);
+    }
+    public Set<E> getConjunto(){
+        return cPrincipal;
+    }
+    
+    public Set<E> unionDosConjuntos(Set<E> conjuntoB){
+        cResult.clear();
+        cResult.addAll(cPrincipal);
+        cResult.addAll(conjuntoB);
+        return cResult;
+    }
+    
+    public Set<E> restaDosConjuntos(Set<E> conjuntoB){
+        cResult.clear();
+        cResult.addAll(cPrincipal);
+        cResult.removeAll(conjuntoB);
+        return cResult;
+    }
+    
+       
+    public Set<E> interseccionTresConjuntos(Set<E> conjuntoB, Set<E> conjuntoC){
+        cResult.clear();
+        cResult.addAll(cPrincipal);
+        cResult.retainAll(conjuntoB);
+        cResult.retainAll(conjuntoC);
+        return cResult;
+    }
+    
+    public Set<E> interseccionDosConjuntos(Set<E> conjuntoB){
+        cResult.clear();
+        cResult.addAll(cPrincipal);
+        cResult.retainAll(conjuntoB);
+        return cResult;
+    }
+    
+    public Set<E> setConjunto(){
+        return cResult;
+    }
+    
+    public void setConjunto(Set<E> conjuntoB){
+        cPrincipal = conjuntoB;
+    }
+    
+    public boolean subConjunto(Set<E> conjuntoB){
+	cResult.clear();
+	cResult.addAll(conjuntoB);
+	cResult.retainAll(cPrincipal);
+	if (cResult.size()==cPrincipal.size()){
+		return true;
+	}
+	else{
+		return false;
+	}
+    }
+    
+     public int cantElementos(){
+        int num = cPrincipal.size();
+        return num;
+    }
+    
+    public Object[] elementos(){
+        Object[] elementos;
+        elementos = cPrincipal.toArray();
+        return elementos; 
+    }
+    
+    @Override
+    public String toString(){
+	String desarrollador = cPrincipal.toString();
+        desarrollador = desarrollador.replace("]", "");
+        desarrollador = desarrollador.replace("[", " ");
+        desarrollador = desarrollador.replace(",", "\n");
+        return desarrollador;
+    }
+    
+}
